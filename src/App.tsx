@@ -20,6 +20,12 @@ const Main = styled.main`
   padding: 20px;
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 // enum Frequency {
 //   daily,
 //   weekly,
@@ -46,8 +52,10 @@ function App() {
 
   function addTask(event: React.FormEvent) {
     event.preventDefault();
-    setTasks([...tasks, { title: inputValue }]);
-    setInputValue('');
+    if (inputValue !== '') {
+      setTasks([...tasks, { title: inputValue }]);
+      setInputValue('');
+    }
   }
 
   function handleChange(event: React.SyntheticEvent<EventTarget>) {
@@ -61,10 +69,16 @@ function App() {
         <h1>Tasks ✅</h1>
       </Header>
       <Main>
-        <form onSubmit={addTask}>
-          <Input onChange={handleChange} value={inputValue} />
-          <button type="submit"></button>
-        </form>
+        <Form onSubmit={addTask}>
+          <Input
+            onChange={handleChange}
+            value={inputValue}
+            className="form-control"
+          />
+          <button type="submit" className="btn btn-primary">
+            Add
+          </button>
+        </Form>
         {tasks.map((task) => (
           <Task {...task} />
         ))}
