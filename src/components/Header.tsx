@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Header = styled.header`
   width: 100%;
@@ -6,7 +6,8 @@ const Header = styled.header`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 20px 15px;
+  justify-content: space-between;
+  padding: 20px;
   box-sizing: border-box;
   h1 {
     margin: 0px;
