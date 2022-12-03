@@ -20,15 +20,15 @@ const Main = styled.main`
   padding: 20px;
 `;
 
-enum Frequency {
-  daily,
-  weekly,
-  biweekly,
-  monthly,
-  quarterly,
-  biannual,
-  annual,
-}
+// enum Frequency {
+//   daily,
+//   weekly,
+//   biweekly,
+//   monthly,
+//   quarterly,
+//   biannual,
+//   annual,
+// }
 interface TaskProps {
   start?: Date;
   end?: Date;
