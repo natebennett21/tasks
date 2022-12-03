@@ -23,12 +23,12 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyC57tF3Vb6l8ms97Dbwwe2lzqDIiWtXGdI',
-  authDomain: 'tasks-dfe9b.firebaseapp.com',
-  projectId: 'tasks-dfe9b',
-  storageBucket: 'tasks-dfe9b.appspot.com',
-  messagingSenderId: '1095585592',
-  appId: '1:1095585592:web:70ee7016e5183b6f983bcd',
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

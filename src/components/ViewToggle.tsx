@@ -32,7 +32,7 @@ function ViewToggle({ view, setView }: ViewToggleProps) {
         checked={view === View.Manager}
       />
       <label className="btn btn-outline-primary" htmlFor="btnradio2">
-        Manager
+        Manage Tasks
       </label>
     </div>
   );
