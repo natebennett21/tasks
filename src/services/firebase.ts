@@ -31,11 +31,12 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
 // add task
-export function addTask(task: Task, onSuccess: Function) {
+export function addTask(task: Task, onSuccess: Function, onError: Function) {
   try {
     addDoc(collection(db, 'tasks'), task);
     onSuccess();
   } catch (e) {
     console.error('Error adding task: ', e);
+    onError();
   }
 }

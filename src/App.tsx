@@ -20,6 +20,7 @@ const Main = styled.main`
   width: 100%;
   max-width: 800px;
   padding: 20px;
+  font-size: 1.2rem;
 `;
 
 function App() {
