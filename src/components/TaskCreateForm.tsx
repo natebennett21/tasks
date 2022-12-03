@@ -1,41 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
 import Input from './Input';
 import Label from './Label';
 import Frequency from '../types/Frequency';
 import Task from '../types/Task';
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import {
-  getFirestore,
-  collection,
-  // query,
-  // where,
-  addDoc,
-  // doc,
-  // onSnapshot,
-} from 'firebase/firestore';
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-};
-
-console.log(firebaseConfig);
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(firebaseApp);
+import * as firebase from '../services/firebase';
 
 const Form = styled.form`
   display: flex;
@@ -48,15 +17,15 @@ function TaskCreateForm() {
   const [description, setDescription] = useState<string>('');
   const [frequency, setFrequency] = useState<Frequency>(Frequency.Daily);
 
+  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
+
   function addTask(event: React.FormEvent) {
     const newTask: Task = { title, description, frequency };
     event.preventDefault();
-    try {
-      addDoc(collection(db, 'tasks'), newTask);
+    firebase.addTask(newTask, () => {
       resetForm();
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+      setShowSuccessMessage(true);
+    });
   }
 
   function resetForm() {
@@ -64,6 +33,13 @@ function TaskCreateForm() {
     setDescription('');
     setFrequency(Frequency.Daily);
   }
+
+  // clear showSuccessMessage after a few seconds
+  useEffect(() => {
+    if (showSuccessMessage) {
+      setTimeout(() => setShowSuccessMessage(false), 3000);
+    }
+  }, [showSuccessMessage]);
 
   return (
     <Form onSubmit={addTask}>
@@ -79,6 +55,9 @@ function TaskCreateForm() {
       <button type="submit" className="btn btn-primary">
         Add
       </button>
+      {showSuccessMessage && (
+        <div className="alert alert-success">Success! Task created.</div>
+      )}
     </Form>
   );
 }
