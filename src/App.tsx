@@ -117,11 +117,7 @@ function App() {
       </Header>
       <Main>
         <Form onSubmit={addTask}>
-          <Input
-            onChange={handleChange}
-            value={inputValue}
-            className="form-control"
-          />
+          <Input onChange={handleChange} value={inputValue} required />
           <button type="submit" className="btn btn-primary">
             Add
           </button>
