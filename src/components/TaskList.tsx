@@ -44,7 +44,7 @@ function TaskList() {
           <thead>
             <tr>
               <th>Title</th>
-              <th>Description</th>
+              <th>Notes/Description</th>
               <th>Frequency</th>
               <th>Rule</th>
               <th>Color</th>

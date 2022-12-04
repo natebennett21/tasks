@@ -30,6 +30,7 @@ const ColorContainer = styled.div`
 `;
 const ColorSwatch = styled.div<{ background: string }>`
   border-radius: 5px;
+  border: 1px solid #208aae;
   height: 36px;
   width: 100%;
   background: ${(props) => props.background};
@@ -100,7 +101,7 @@ function TaskCreateForm() {
         />
       </Label>
       <Label>
-        Description
+        Notes/Description
         <Input
           onChange={(e) => setDescription(e.target.value)}
           value={description}
