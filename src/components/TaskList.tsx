@@ -5,6 +5,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { db } from '../services/firebase';
 import TaskType from '../types/Task';
 import Task from './Task';
+import { convertDocToTask } from '../util/doc';
 
 const FullWidthContainer = styled.div`
   width: 100%;
@@ -31,7 +32,11 @@ function TaskList() {
 
   useEffect(() => {
     if (value) {
-      setTaskList(value.docs.map((doc) => doc.data()) as TaskType[]);
+      console.log(value);
+      setTaskList(value.docs.map((doc) => convertDocToTask(doc)) as TaskType[]);
+      console.table(
+        value.docs.map((doc) => convertDocToTask(doc)) as TaskType[]
+      );
     }
   }, [value]);
 
@@ -54,7 +59,7 @@ function TaskList() {
           </thead>
           <TBody>
             {taskList.map((task) => (
-              <Task {...task} />
+              <Task {...task} key={task.title} />
             ))}
           </TBody>
         </Table>

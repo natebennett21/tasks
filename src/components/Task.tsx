@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TaskProps from '../types/Task';
+import { deleteTask } from '../services/firebase';
 
 const ColorSwatch = styled.div<{ background: string }>`
   height: 25px;
@@ -8,7 +9,20 @@ const ColorSwatch = styled.div<{ background: string }>`
   background: ${(props) => props.background};
   border-radius: 5px;
 `;
-function Task({ title, description, frequency, rule, color }: TaskProps) {
+function Task({ title, description, frequency, rule, color, id }: TaskProps) {
+  function deleteTaskFromFirebase() {
+    if (id) {
+      deleteTask(
+        id,
+        () => {
+          console.log('success!');
+        },
+        () => {
+          console.log('error sad boi');
+        }
+      );
+    }
+  }
   return (
     <tr>
       <td>{title}</td>
@@ -22,7 +36,9 @@ function Task({ title, description, frequency, rule, color }: TaskProps) {
         <button className="btn">✏️</button>
       </td>
       <td>
-        <button className="btn">🗑️</button>
+        <button className="btn" onClick={deleteTaskFromFirebase}>
+          🗑️
+        </button>
       </td>
     </tr>
   );

@@ -6,7 +6,9 @@ import {
   // query,
   // where,
   addDoc,
-  // doc,
+  doc,
+  runTransaction,
+  deleteDoc,
   // onSnapshot,
 } from 'firebase/firestore';
 
@@ -37,6 +39,56 @@ export function addTask(task: Task, onSuccess: Function, onError: Function) {
     onSuccess();
   } catch (e) {
     console.error('Error adding task: ', e);
+    onError();
+  }
+}
+
+// update task
+export async function updateTask(
+  task: Task,
+  onSuccess: Function,
+  onError: Function
+) {
+  if (task.id) {
+    try {
+      const docRef = doc(db, 'tasks', task.id);
+      if (docRef) {
+        try {
+          await runTransaction(db, async (transaction) => {
+            const task = await transaction.get(docRef);
+            if (!task.exists()) {
+              throw Error('Task does not exist!');
+            }
+
+            transaction.update(docRef, { ...task });
+          });
+          console.log('Transaction successfully committed!');
+        } catch (e) {
+          console.log('Transaction failed: ', e);
+        }
+      }
+      onSuccess();
+    } catch (e) {
+      console.error('Error adding task: ', e);
+      onError();
+    }
+  } else {
+    console.error('No task id exists.');
+    onError();
+  }
+}
+
+// delete task
+export async function deleteTask(
+  id: string,
+  onSuccess: Function,
+  onError: Function
+) {
+  try {
+    await deleteDoc(doc(db, 'tasks', id));
+    onSuccess();
+  } catch (e) {
+    console.error('Error deleting task: ', e);
     onError();
   }
 }

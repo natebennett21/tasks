@@ -28,7 +28,7 @@ function TaskManager() {
         data-bs-toggle="modal"
         data-bs-target="#taskFormModal"
       >
-        Add task
+        New task
       </button>
 
       <div

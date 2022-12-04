@@ -22,7 +22,9 @@ Deploys are also triggered upon
 # Todo list
 
 - [ ] Editing functionality inside modal
-- [ ] Delete task functionality
+- [x] Delete task functionality
 - [ ] Additional data for storing when tasks are completed
 - [ ] Logic for generating tasks (3mos into future?)
 - [ ] Get tasks loading into calendar
+- [ ] Toast component
+- [ ] Modal component
