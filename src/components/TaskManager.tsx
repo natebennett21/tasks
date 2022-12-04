@@ -1,8 +1,19 @@
 import React from 'react';
+import styled from 'styled-components';
 import TaskCreateForm from './TaskCreateForm';
-// import TaskList from './TaskList';
+import TaskList from './TaskList';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 function TaskManager() {
-  return <TaskCreateForm />;
+  return (
+    <Container>
+      <TaskCreateForm />
+      <TaskList />
+    </Container>
+  );
 }
 export default TaskManager;

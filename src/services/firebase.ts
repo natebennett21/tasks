@@ -28,7 +28,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(firebaseApp);
+export const db = getFirestore(firebaseApp);
 
 // add task
 export function addTask(task: Task, onSuccess: Function, onError: Function) {
