@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import TaskProps from '../types/Task';
 import { deleteTask } from '../services/firebase';
+import TaskForm from './TaskCreateForm';
+import Modal from './Modal';
 
 const ColorSwatch = styled.div<{ background: string }>`
   height: 25px;
@@ -10,6 +12,7 @@ const ColorSwatch = styled.div<{ background: string }>`
   border-radius: 5px;
 `;
 function Task({ title, description, frequency, rule, color, id }: TaskProps) {
+  const task = { title, description, frequency, rule, color, id };
   function deleteTaskFromFirebase() {
     if (id) {
       deleteTask(
@@ -33,7 +36,12 @@ function Task({ title, description, frequency, rule, color, id }: TaskProps) {
         <ColorSwatch background={color} />
       </td>
       <td>
-        <button className="btn">✏️</button>
+        <Modal
+          buttonText="✏️"
+          modalId="editTaskModal"
+          modalTitle="Edit task"
+          modalBody={<TaskForm task={task} />}
+        />
       </td>
       <td>
         <button className="btn" onClick={deleteTaskFromFirebase}>

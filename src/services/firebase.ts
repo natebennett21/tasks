@@ -55,8 +55,8 @@ export async function updateTask(
       if (docRef) {
         try {
           await runTransaction(db, async (transaction) => {
-            const task = await transaction.get(docRef);
-            if (!task.exists()) {
+            const taskRef = await transaction.get(docRef);
+            if (!taskRef.exists()) {
               throw Error('Task does not exist!');
             }
 

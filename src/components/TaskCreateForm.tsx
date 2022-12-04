@@ -40,12 +40,19 @@ const Message = styled.div`
   margin-top: 5px;
 `;
 
-function TaskCreateForm() {
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [frequency, setFrequency] = useState<Frequency>(Frequency.Daily);
-  const [rule, setRule] = useState<Rule>(Rule.Alternate);
-  const [color, setColor] = useState('#ffffff');
+interface TaskFormProps {
+  task?: Task;
+}
+function TaskForm({ task }: TaskFormProps) {
+  const [title, setTitle] = useState<string>(task?.title || '');
+  const [description, setDescription] = useState<string>(
+    task?.description || ''
+  );
+  const [frequency, setFrequency] = useState<Frequency>(
+    task?.frequency || Frequency.Daily
+  );
+  const [rule, setRule] = useState<Rule>(task?.rule || Rule.Alternate);
+  const [color, setColor] = useState(task?.color || '#ffffff');
   const [showColorPicker, setShowColorPicker] = useState(false);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
@@ -55,6 +62,21 @@ function TaskCreateForm() {
     const newTask: Task = { title, description, frequency, rule, color };
     event.preventDefault();
     firebase.addTask(
+      newTask,
+      () => {
+        resetForm();
+        setShowSuccessMessage(true);
+      },
+      () => setShowErrorMessage(true)
+    );
+  }
+  function editTask(event: React.FormEvent) {
+    event.preventDefault();
+
+    const newTask: Task = { title, description, frequency, rule, color };
+    newTask.id = task?.id;
+
+    firebase.updateTask(
       newTask,
       () => {
         resetForm();
@@ -91,7 +113,7 @@ function TaskCreateForm() {
   }, [showErrorMessage]);
 
   return (
-    <Form onSubmit={addTask}>
+    <Form onSubmit={task ? editTask : addTask}>
       <Label>
         Title
         <Input
@@ -152,11 +174,11 @@ function TaskCreateForm() {
         </ColorContainer>
       </Label>
       <button type="submit" className="btn btn-primary">
-        Add
+        {task ? 'Save task' : 'Create task'}
       </button>
       {showSuccessMessage && (
         <Message className="alert alert-success">
-          Success! Task created.
+          Success! Task {task ? 'updated' : 'created'}.
         </Message>
       )}
       {showErrorMessage && (
@@ -168,4 +190,4 @@ function TaskCreateForm() {
   );
 }
 
-export default TaskCreateForm;
+export default TaskForm;

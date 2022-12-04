@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import TaskCreateForm from './TaskCreateForm';
+import TaskForm from './TaskCreateForm';
 import Modal from './Modal';
 import TaskList from './TaskList';
 
@@ -17,7 +17,7 @@ function TaskManager() {
         buttonText="New task"
         modalId="newTaskModal"
         modalTitle="Create new task"
-        modalBody={<TaskCreateForm />}
+        modalBody={<TaskForm />}
       />
     </Container>
   );
