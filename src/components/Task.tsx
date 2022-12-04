@@ -18,6 +18,12 @@ function Task({ title, description, frequency, rule, color }: TaskProps) {
       <td>
         <ColorSwatch background={color} />
       </td>
+      <td>
+        <button className="btn">✏️</button>
+      </td>
+      <td>
+        <button className="btn">🗑️</button>
+      </td>
     </tr>
   );
 }

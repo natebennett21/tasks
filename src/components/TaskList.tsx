@@ -16,6 +16,8 @@ const Table = styled.table`
   box-sizing: border-box;
   border-radius: 5px;
   border: 1px solid #666565;
+  max-height: 80%;
+  overflow-y: scroll;
 `;
 const TBody = styled.tbody`
   background-color: #363d4b;
@@ -30,8 +32,6 @@ function TaskList() {
   useEffect(() => {
     if (value) {
       setTaskList(value.docs.map((doc) => doc.data()) as TaskType[]);
-      //TODO: rm
-      console.table(taskList);
     }
   }, [value]);
 
@@ -40,14 +40,6 @@ function TaskList() {
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Collection: Loading...</span>}
       {value && (
-        // <span>
-        //   Collection:{' '}
-        //   {value.docs.map((doc) => (
-        //     <React.Fragment key={doc.id}>
-        //       {JSON.stringify(doc.data())},{' '}
-        //     </React.Fragment>
-        //   ))}
-        // </span>
         <Table className="table">
           <thead>
             <tr>
@@ -56,6 +48,8 @@ function TaskList() {
               <th>Frequency</th>
               <th>Rule</th>
               <th>Color</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <TBody>
