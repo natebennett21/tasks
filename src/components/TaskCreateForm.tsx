@@ -7,6 +7,7 @@ import Frequency from '../types/Frequency';
 import Rule from '../types/Rule';
 import Task from '../types/Task';
 import * as firebase from '../services/firebase';
+import { SwatchesPicker } from 'react-color';
 
 const Form = styled.form`
   display: flex;
@@ -15,17 +16,40 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const ColorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // this is so dumb but I don't want the color picker to have a background
+  > div > div > div > div > div {
+    background: #1a1d23;
+  }
+  > div:nth-child(2) {
+    margin-bottom: 10px;
+  }
+`;
+const ColorSwatch = styled.div<{ background: string }>`
+  border-radius: 5px;
+  height: 36px;
+  width: 100%;
+  background: ${(props) => props.background};
+  margin-bottom: 10px;
+  cursor: pointer;
+`;
+
 function TaskCreateForm() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [frequency, setFrequency] = useState<Frequency>(Frequency.Daily);
   const [rule, setRule] = useState<Rule>(Rule.Alternate);
+  const [color, setColor] = useState('#ffffff');
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
   const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
   function addTask(event: React.FormEvent) {
-    const newTask: Task = { title, description, frequency, rule };
+    const newTask: Task = { title, description, frequency, rule, color };
     event.preventDefault();
     firebase.addTask(
       newTask,
@@ -42,6 +66,11 @@ function TaskCreateForm() {
     setDescription('');
     setFrequency(Frequency.Daily);
     setRule(Rule.Alternate);
+  }
+
+  function selectColor(hex: string) {
+    setColor(hex);
+    setShowColorPicker(false);
   }
 
   // clear showSuccessMessage after a few seconds
@@ -87,7 +116,9 @@ function TaskCreateForm() {
           className="form-select"
         >
           {Object.keys(Frequency).map((freq) => (
-            <option value={freq}>{freq}</option>
+            <option value={freq} key={freq}>
+              {freq}
+            </option>
           ))}
         </Select>
       </Label>
@@ -99,9 +130,23 @@ function TaskCreateForm() {
           className="form-select"
         >
           {Object.keys(Rule).map((rule) => (
-            <option value={rule}>{rule}</option>
+            <option value={rule} key={rule}>
+              {rule}
+            </option>
           ))}
         </Select>
+      </Label>
+      <Label>
+        Color
+        <ColorContainer>
+          <ColorSwatch
+            onClick={(e) => setShowColorPicker(true)}
+            background={color}
+          />
+          {showColorPicker && (
+            <SwatchesPicker onChange={(color) => selectColor(color.hex)} />
+          )}
+        </ColorContainer>
       </Label>
       <button type="submit" className="btn btn-primary">
         Add

@@ -8,6 +8,7 @@ interface Task {
   description?: string;
   frequency: Frequency;
   rule: Rule;
+  color: string;
 }
 
 export default Task;
