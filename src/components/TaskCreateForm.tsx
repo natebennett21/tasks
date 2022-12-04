@@ -15,7 +15,6 @@ const Form = styled.form`
   align-items: center;
   width: 100%;
 `;
-
 const ColorContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,6 +35,9 @@ const ColorSwatch = styled.div<{ background: string }>`
   background: ${(props) => props.background};
   margin-bottom: 10px;
   cursor: pointer;
+`;
+const Message = styled.div`
+  margin-top: 5px;
 `;
 
 function TaskCreateForm() {
@@ -153,10 +155,14 @@ function TaskCreateForm() {
         Add
       </button>
       {showSuccessMessage && (
-        <div className="alert alert-success">Success! Task created.</div>
+        <Message className="alert alert-success">
+          Success! Task created.
+        </Message>
       )}
       {showErrorMessage && (
-        <div className="alert alert-danger">Uh oh, something went wrong.</div>
+        <Message className="alert alert-danger">
+          Uh oh, something went wrong.
+        </Message>
       )}
     </Form>
   );
